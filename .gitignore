@@ -1,0 +1,193 @@
+# Ignore configuration files that may contain sensitive information.
+local.settings.php
+local.drush.yml
+local.site.yml
+local.services.yml
+site.txt
+tests/apis/conductor_v2/settings.php
+tests/behat/local.yml
+box/local.config.yml
+box/alshaya_acm*
+*.local
+local.blt.yml
+
+# Ignore drupal core.
+web/core
+
+# Ignore paths that contain user-generated content.
+web/sites/*/files
+web/sites/*/private
+
+# Ignore contrib modules. These should be created during build process.
+web/modules/contrib
+web/themes/contrib
+web/profiles/contrib
+web/libraries
+drush/Commands
+
+# Ignore custom module build artifacts
+web/modules/custom/node_modules
+web/modules/custom/*/node_modules
+web/modules/custom/*/*/*/node_modules
+web/modules/custom/*/dist
+web/modules/custom/*/*/*/dist
+web/modules/react/node_modules
+web/modules/react/*/node_modules
+web/modules/react/*/dist
+
+# Ignore custom theme build artifacts
+web/themes/custom/*/node_modules
+web/themes/custom/*/css
+web/themes/custom/transac/*/css
+web/themes/custom/non_transac/*/css
+web/themes/custom/amp/*/css
+web/themes/custom/transac_lite/*/css/
+web/themes/custom/*/styleguide
+web/themes/custom/non_transac/*/styleguide
+
+# Ignore build artifacts
+deployment_identifier
+/deploy
+bin/*
+tmp
+reports
+
+# OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Eclipse
+*.pydevproject
+.project
+.metadata
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpathk
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# User-specific stuff:
+.idea/
+.vscode/
+
+#XHProf
+xhprof_*
+
+#Composer vendor
+vendor/
+vendor/.git
+
+#Sass
+.sass-cache
+*.css.map
+
+#Netbeans IDE
+nbproject
+nbproject/*
+
+# DrupalVM
+.vagrant/
+
+# DevDesktop
+*.dd
+
+#Exports
+*.gz
+*.sql
+*.zip
+
+# PHPStorm
+atlassian-ide-plugin.xml
+
+#NPM
+npm-debug.log
+
+# Drush 9 Checksums
+drush/sites/.checksums
+
+# Allow developers to override config in local.
+factory-hooks/*/local.php
+
+# Deprecation detector rules
+.rules
+
+alshaya_behat/bin
+alshaya_behat/vendor
+alshaya_behat/media
+
+scripts/integration/includes/global-api-settings.inc.sh
+
+# Ignore console.
+console/
+
+# Ignore install script override for devs.
+install-site-dev.sh
+
+# Ignore modules used only in local (like xhprof)
+web/modules/development
+
+# Ignore new files created after composer install.
+web/.gitignore
+web/.htaccess.orig
+web/modules/.gitignore
+web/profiles/.gitignore
+/.editorconfig
+/.gitattributes
+.lando.local.yml
+
+# Ignore all built JS files and node modules.
+dist
+node_modules
+
+# Ignore JS uglification builds.
+web/build
+
+/travis_wait*
+
+#Ignore behat secret keys.
+tests/behat/creds.json
