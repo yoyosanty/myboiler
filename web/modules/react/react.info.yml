@@ -1,0 +1,4 @@
+name: React
+type: module
+description: 'A module for basic React components.'
+core_version_requirement: ^8.7.7 || ^9

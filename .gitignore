@@ -170,6 +170,7 @@ install-site-dev.sh
 
 # Ignore modules used only in local (like xhprof)
 web/modules/development
+modules/react/js/dist
 
 # Ignore new files created after composer install.
 web/.gitignore
