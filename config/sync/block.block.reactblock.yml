@@ -1,0 +1,20 @@
+uuid: 2e049432-6e8e-40a7-98b4-53695b3caad6
+langcode: en
+status: true
+dependencies:
+  module:
+    - react
+  theme:
+    - olivero
+id: reactblock
+theme: olivero
+region: sidebar
+weight: 0
+provider: null
+plugin: react_block
+settings:
+  id: react_block
+  label: 'React block'
+  label_display: visible
+  provider: react
+visibility: {  }

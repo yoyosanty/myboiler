@@ -17,8 +17,12 @@ export default class ReactComp extends Component {
 
   render() {
     const { text } = this.props;
+    const { currentLanguage } = drupalSettings.path;
     return (
-      <button onClick={this.toggleText}><h1 id="test-text">{text}</h1></button>
+      <>
+        <span>{currentLanguage}</span>
+        <button onClick={this.toggleText}><h1 id="test-text">{text}</h1></button>
+      </>
     );
   }
 }
