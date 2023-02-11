@@ -1,0 +1,10 @@
+uuid: 417e89ac-3055-4a64-a475-26e9aba67170
+langcode: en
+status: true
+dependencies: {  }
+id: feed_import
+label: feed_import
+description: ''
+source_type: null
+module: null
+shared_configuration: null

@@ -1,0 +1,33 @@
+id: feed_import_media
+label: 'Migrate Media from feed'
+migration_group: feed_import
+source:
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: xml
+  urls: "http://feeds.feedburner.com/ndtvnews-top-stories.xml"
+  item_selector: /rss/channel/item
+  fields:
+    -
+      name: title
+      label: 'title'
+      selector: title
+    -
+      name: image
+      label: 'image'
+      selector: 'media:content'
+  ids:
+    title:
+      type: string
+process:
+  uri:
+    -
+      plugin: attribute_xml
+      source: image
+    -
+      plugin: file_copy
+destination:
+ plugin: 'entity:file'
+migration_dependencies:
+ required: { }
+dependencies: { }

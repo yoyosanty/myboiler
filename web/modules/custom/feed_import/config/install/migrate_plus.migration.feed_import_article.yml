@@ -1,0 +1,80 @@
+id: feed_import_article
+label: 'Migrate Articles from feed'
+migration_group: feed_import
+source:
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: xml
+  urls: "http://feeds.feedburner.com/ndtvnews-top-stories.xml"
+  item_selector: /rss/channel/item
+  fields:
+    -
+      name: guid
+      label: 'guid'
+      selector: guid
+    -
+      name: title
+      label: 'title'
+      selector: title
+    -
+      name: link
+      label: 'link'
+      selector: link
+    -
+      name: created
+      label: 'created'
+      selector: pubDate
+    -
+      name: description
+      label: 'description'
+      selector: description
+    -
+      name: body
+      label: 'body'
+      selector: "content:encoded"
+    -
+      name: image
+      label: 'image'
+      selector: "media:content"
+  ids:
+    title:
+      type: string
+process:
+  title:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: title
+  field_link/uri:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: link
+  field_guid:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: guid
+  created:
+    -
+      plugin: format_date
+      from_format: 'D, d M Y H:i:s O'
+      to_format: 'U'
+      source: created
+      from_timezone: 'UTC'
+      to_timezone: 'UTC'
+  body/value: body
+  body/summary: description
+  body/format: 'full_html'
+  field_image/alt: title
+  field_image/target_id:
+    -
+      plugin: migration_lookup
+      migration: feed_import_media
+      source: title
+destination:
+ plugin: 'entity:node'
+ default_bundle: article
+migration_dependencies:
+ required: { }
+dependencies: { }

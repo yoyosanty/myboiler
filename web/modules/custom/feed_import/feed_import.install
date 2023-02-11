@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Install file for feed_import.
+ */
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Delete configs on uninstall.
+ */
+function feed_import_uninstall() {
+  // Delete migration configs.
+  $config_factory = \Drupal::service('config.factory');
+  $config_factory->getEditable('migration_plus.migration_group.feed_import')->delete();
+  $config_factory->getEditable('migrate_plus.migration.feed_import_article')->delete();
+  $config_factory->getEditable('migrate_plus.migration.feed_import_media')->delete();
+}

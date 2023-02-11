@@ -1,0 +1,13 @@
+name: Feed Import
+description: Imports data from feed
+package: Migration
+type: module
+core_version_requirement: ^8.8.0 || ^9
+dependencies:
+ - drupal:migrate_plus
+ - drupal:migrate_tools
+config_devel:
+ install:
+   - migrate_plus.migration_group.feed_import
+   - migrate_plus.migration.feed_import_article
+   - migrate_plus.migration.feed_import_media
