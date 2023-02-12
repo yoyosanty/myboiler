@@ -17,7 +17,7 @@ source:
       label: 'image'
       selector: 'media:content'
   ids:
-    title:
+    guid:
       type: string
 process:
   uri:
