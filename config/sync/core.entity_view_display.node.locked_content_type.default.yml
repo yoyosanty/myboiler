@@ -1,0 +1,31 @@
+uuid: 02c1c772-72e6-4dfc-a1f5-232cb99aab21
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.locked_content_type.body
+    - node.type.locked_content_type
+  module:
+    - text
+    - user
+  enforced:
+    module:
+      - node_type_example
+_core:
+  default_config_hash: 79Pv3ltVK1huTfhO4rTYIE5yP-9XUZCrBVmH7Hv39FQ
+id: node.locked_content_type.default
+targetEntityType: node
+bundle: locked_content_type
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden: {  }
