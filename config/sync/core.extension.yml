@@ -11,7 +11,7 @@ module:
   block_example: 0
   breakpoint: 0
   cache_example: 0
-  ckeditor: 0
+  ckeditor5: 0
   comment: 0
   config: 0
   config_entity_example: 0
@@ -58,7 +58,7 @@ module:
   phpunit_example: 0
   plugin_type_example: 0
   queue_example: 0
-  rdf: 0
+  react: 0
   render_example: 0
   search: 0
   session_example: 0
@@ -74,6 +74,8 @@ module:
   toolbar: 0
   tour: 0
   tour_example: 0
+  update: 0
+  upgrade_status: 0
   user: 0
   views_ui: 0
   views: 10
