@@ -1,0 +1,7 @@
+name: Publish custom
+type: module
+description: 'Publish Content to another environment.'
+core_version_requirement: ^9 || ^10
+dependencies:
+  - drupal:rest
+  - drupal:content_moderation

@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function publish_schema() {
+  $schema['publish_to_prod'] = [
+    'description' => 'A table to store simple data',
+    'fields' => [
+      'type' => [
+        'description' => 'Holds the entity type value',
+        'type' => 'varchar',
+        'length' => '50',
+        'not null' => TRUE,
+      ],
+      'uuid' => [
+        'description' => 'Holds the uuid value',
+        'type' => 'varchar',
+        'length' => '50',
+        'not null' => TRUE,
+      ],
+      'entity_id_prod' => [
+        'description' => 'Holds the entity id value',
+        'type' => 'varchar',
+        'length' => '50',
+        'not null' => TRUE,
+      ],
+    ],  
+    'primary key' => ['uuid'],
+  ];
+
+  return $schema;
+}

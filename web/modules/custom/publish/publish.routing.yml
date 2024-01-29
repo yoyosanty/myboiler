@@ -1,0 +1,7 @@
+publish.admin_settings:
+  path: '/admin/config/publish'
+  defaults:
+    _form: '\Drupal\publish\Form\PublishConfigurationForm'
+    _title: 'publish configuration screen'
+  requirements:
+    _permission: 'administer site configuration'
