@@ -149,7 +149,7 @@ function publish__form_submit(&$form, FormStateInterface $form_state) {
       $content = publish__post_entity($url . '/node' . $entity_id . '?_format=json', $options, $entity, $entity_id);
       if (!$entity_id) {
         insert_mapping($entity, $content);
-      }exit;
+      }
     }
   }
 
