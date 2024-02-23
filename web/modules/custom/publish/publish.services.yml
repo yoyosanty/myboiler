@@ -1,0 +1,4 @@
+services:
+  publish.utility:
+    class: \Drupal\publish\Utility
+    arguments: []

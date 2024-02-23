@@ -5,152 +5,38 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Entity;
 
-/**
- * Implements hook_form_alter().
- */
-function publish_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-
-  // Add post data to configured environment.
-  if ($form_id == 'node_article_edit_form' || $form_id == 'node_article_form') {
-    $form['actions']['submit']['#submit'][] = 'publish__form_submit';
-  }
-}
-
-function publish__post_entity($url, $options, $entity, $entity_id = false) {
-  if (!$entity) {
-    return;
-  }
-  // Create DATA to post.
-  $serializer = \Drupal::service('serializer');
-  $serialized_entity = $serializer->serialize($entity, 'json', ['plugin_id' => 'entity']);
-
-  $json = json_decode($serialized_entity);
-  // For all types.
-  unset($json->changed);
-  switch ($entity->getEntityTypeId()) {
-    case 'taxonomy_term';
-      unset($json->tid);
-    break;
-    case 'node';
-      unset($json->nid);
-      unset($json->revision_timestamp);
-      unset($json->revision_uid);
-      unset($json->revision_translation_affected);
-      unset($json->revision_log);
-      unset($json->moderation_state);
-      unset($json->body[0]->processed);
-      unset($json->vid);
-    break;
-    case 'user';
-     unset($json->uid);
-    break;
-  }
-  unset($json->moderation_state);
-  $serialized_entity = json_encode($json);
-
-  // Create Options.
-  $options['body'] = $serialized_entity;
-  
-  try {
-    if ($entity_id) {
-      $request =  \Drupal::httpClient()->patch($url, $options);
-    }
-    else {
-      $request =  \Drupal::httpClient()->post($url, $options);  
-    }
-    $response = json_decode($request->getBody());
-  }
-  catch (\Exception $e) {
-    \Drupal::logger('publish')->error($e->getMessage());
-  }
-
-  return $response;
+function publish_entity_presave(\Drupal\Core\Entity\EntityInterface $entity) {
+  // call to trigger content push.
+  \Drupal::service('publish.utility')->publish_presave($entity);
 }
 
 function insert_mapping($entity, $response) {
-  if (is_object($response)) {
-    switch ($entity->getEntityTypeId()) {
-      case 'taxonomy_term';
-        $entity_id = $response->tid[0]->value;
-      break;
-      case 'node';
-        $entity_id = $response->nid[0]->value;
-      break;
-      case 'user';
-        $entity_id = $response->uid[0]->value;
-      break;
-    }
-    $connection = Database::getConnection();
-    $connection->insert('publish_to_prod')->fields([ 
-      'type' => $entity->getEntityTypeId(),
-      'uuid' => $entity->uuid->value,
-      'entity_id_prod' => $entity_id,
-      ])->execute();
-  }
+  // if (is_object($response)) {
+  //   switch ($entity->getEntityTypeId()) {
+  //     case 'taxonomy_term';
+  //       $entity_id = $response->tid[0]->value;
+  //     break;
+  //     case 'node';
+  //       $entity_id = $response->nid[0]->value;
+  //     break;
+  //     case 'user';
+  //       $entity_id = $response->uid[0]->value;
+  //     break;
+  //   }
+  //   $connection = Database::getConnection();
+  //   $connection->insert('publish_to_prod')->fields([ 
+  //     'type' => $entity->getEntityTypeId(),
+  //     'uuid' => $entity->uuid->value,
+  //     'entity_id_prod' => $entity_id,
+  //     ])->execute();
+  // }
 }
 
 function fetch_mapping($entity) {
-  $connection = Database::getConnection() ;
-  $query = $connection->select('publish_to_prod', 'n');
-  $query->condition('n.uuid', $entity->uuid->value);
-  $query->fields('n', ['entity_id_prod']);
-  $id = $query->execute()->fetchField();
-  return $id;
-}
-
-
-function publish__form_submit(&$form, FormStateInterface $form_state) {
-  
-  $form_object = $form_state->getFormObject();
-  if ($form_object instanceof EntityForm) {
-    $entity = $form_object->getEntity();
-
-    $config = \Drupal::config('publish.admin_settings');
-    $url = rtrim($config->get('url'), '/');
-
-    $options = [
-      'headers' => [
-      'Content-Type' => 'application/json'
-      ],
-    ];
-    // Add auth if needed.
-    if ($config->get('username') && $config->get('password')) {
-      $options['auth'] = [
-        $config->get('username'),
-        $config->get('password')
-      ];
-    }
-
-  
-    // Do something with the entity.
-    if ($entity->moderation_state->value == $config->get('state') || $entity->moderation_state->value == $config->get('archive_state')) {
-      
-      // Create user.
-      $user_entity = $entity->uid->entity;
-      $entity_id = fetch_mapping($user_entity);
-      $entity_id = $entity_id ? '/' . $entity_id : '';
-      $user = publish__post_entity($url . '/entity/user' . $entity_id . '?_format=json', $options, $user_entity, $entity_id);
-      if (!$entity_id) {
-        insert_mapping($user_entity, $user);
-      }
-      
-      // Create term.
-      $taxonomy_entity = $entity->field_tags->entity;
-      $entity_id = fetch_mapping($taxonomy_entity);
-      $entity_id = $entity_id ? '/' . $entity_id : '';
-      $taxonomy = publish__post_entity($url . '/taxonomy/term' . $entity_id . '?_format=json', $options, $taxonomy_entity, $entity_id);
-      if (!$entity_id) {
-        insert_mapping($taxonomy_entity, $taxonomy);
-      }
-
-      // Content post create.
-      $entity_id = fetch_mapping($entity);
-      $entity_id = $entity_id ? '/' . $entity_id : '';
-      $content = publish__post_entity($url . '/node' . $entity_id . '?_format=json', $options, $entity, $entity_id);
-      if (!$entity_id) {
-        insert_mapping($entity, $content);
-      }
-    }
-  }
-
+  // $connection = Database::getConnection() ;
+  // $query = $connection->select('publish_to_prod', 'n');
+  // $query->condition('n.uuid', $entity->uuid->value);
+  // $query->fields('n', ['entity_id_prod']);
+  // $id = $query->execute()->fetchField();
+  // return $id;
 }
