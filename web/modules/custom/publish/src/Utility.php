@@ -88,7 +88,8 @@ Class Utility {
     // Handle dependency Entities first.
     $fields = [
       'uid',
-      'field_tags'
+      'field_tags',
+      'field_image',
     ];
     foreach ($fields as $field) {
       if ($entity->hasField($field)) {
@@ -145,6 +146,12 @@ Class Utility {
       break;
       case 'user';
        unset($json->uid);
+      break;
+      case 'file';
+        $host = \Drupal::request()->getSchemeAndHttpHost();
+        $json->bundle = 'image';
+        unset($json->uid);
+        unset($json->fid);
       break;
     }
     unset($json->moderation_state);
